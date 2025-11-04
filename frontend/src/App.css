@@ -1,0 +1,30 @@
+body, html, #root {
+  height: 100%;
+  margin: 0;
+  font-family: Arial, sans-serif;
+}
+
+.app-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center; /* 세로 중앙 */
+  align-items: center;     /* 가로 중앙 */
+  height: 100%;
+  text-align: center;
+  padding: 20px;           /* 페이지 양쪽 여백 */
+  box-sizing: border-box;
+}
+
+.input-section {
+  margin-bottom: 20px;     /* 질문 입력창과 버튼 사이 여백 */
+}
+
+.answer-section {
+  max-width: 600px;        /* 답변 박스 너비 제한 */
+  margin-top: 20px;        /* 입력창과 답변 사이 여백 */
+  padding: 15px;
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  background-color: #f9f9f9;
+  word-wrap: break-word;    /* 답변 길어도 줄바꿈 */
+}
