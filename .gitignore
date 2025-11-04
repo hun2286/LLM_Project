@@ -13,3 +13,6 @@ build/
 
 # VSCode
 .vscode/
+
+# db
+mk_pdf_chroma_db
