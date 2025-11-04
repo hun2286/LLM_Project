@@ -20,11 +20,13 @@ body, html, #root {
 }
 
 .answer-section {
-  max-width: 600px;        /* 답변 박스 너비 제한 */
-  margin-top: 20px;        /* 입력창과 답변 사이 여백 */
+  max-width: 600px;       /* 기존 너비 유지 */
+  max-height: 400px;      /* 원하는 최대 높이 설정 */
+  margin-top: 20px;
   padding: 15px;
   border: 1px solid #ccc;
   border-radius: 8px;
   background-color: #f9f9f9;
-  word-wrap: break-word;    /* 답변 길어도 줄바꿈 */
+  word-wrap: break-word;
+  overflow-y: auto;       /* 세로 스크롤 활성화 */
 }
