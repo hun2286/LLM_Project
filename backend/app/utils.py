@@ -44,7 +44,10 @@ def load_all_pdfs(pdf_folder):
     for pdf_file in pdf_files:
         pdf_path = os.path.join(pdf_folder, pdf_file)
         try:
-            docs = load_pdf_safe(pdf_path)
+            docs = load_pdf_safe(pdf_path)  # 기존에 읽어서 Document 리스트로 반환
+            # 각 Document에 PDF 파일명 전체를 metadata['source']로 추가
+            for doc in docs:
+                doc.metadata['source'] = pdf_file
             all_docs.extend(docs)
             print(f"{pdf_file} 처리 완료 ({len(docs)} 문서)")
         except Exception as e:
