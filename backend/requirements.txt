@@ -16,5 +16,8 @@ PyPDF2
 reportlab
 python-multipart
 
+fastapi
+uvicorn
+
 # 실행
 # uvicorn app.main:app --reload

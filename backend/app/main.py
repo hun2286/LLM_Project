@@ -18,7 +18,7 @@ app.add_middleware(
 
 class QueryRequest(BaseModel):
     question: str
-    save_pdf: bool = False
+#    save_pdf: bool = False
 
 @app.post("/ask")
 async def ask_question(request: QueryRequest):
@@ -27,16 +27,24 @@ async def ask_question(request: QueryRequest):
         append_to_pdf(request.question, answer)
     return {"question": request.question, "answer": answer}
 
-@app.post("/upload_pdf/")
-async def upload_pdf(file: UploadFile = File(...)):
-    file_location = f"temp_uploads/{file.filename}"
-    os.makedirs("temp_uploads", exist_ok=True)
-    with open(file_location, "wb") as f:
-        f.write(file.file.read())
-    # 업로드 후 DB 갱신 처리 가능
-    return {"filename": file.filename, "status": "uploaded"}
+# @app.post("/upload_pdf/")
+# async def upload_pdf(file: UploadFile = File(...)):
+#     file_location = f"temp_uploads/{file.filename}"
+#     os.makedirs("temp_uploads", exist_ok=True)
+#     with open(file_location, "wb") as f:
+#         f.write(file.file.read())
+#     # 업로드 후 DB 갱신 처리 가능
+#     return {"filename": file.filename, "status": "uploaded"}
 
-@app.get("/save_pdf/")
-async def download_pdf():
-    save_pdf()
-    return {"status": "PDF saved", "path": "result_log.pdf"}
+# @app.get("/save_pdf/")
+# async def download_pdf():
+#     if not pending_saves:
+#         return {"status": "no data to save"}
+
+#     # 누적된 yes 질문들만 PDF로 저장
+#     for item in pending_saves:
+#         append_to_pdf(item["question"], item["answer"])
+
+#     save_pdf()
+#     pending_saves.clear()
+#     return {"status": "PDF saved", "path": "result_log.pdf"}

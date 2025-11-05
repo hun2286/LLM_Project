@@ -65,7 +65,7 @@ else:
     print("[DB 있음] 기존 DB를 재사용합니다.")
     vectorstore = Chroma(persist_directory=persist_dir, embedding_function=embedding_model)
 
-retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 5})
+retriever = vectorstore.as_retriever(search_type="similarity", search_kwargs={"k": 10})
 
 # RAG 답변
 def rag_answer(question):
@@ -74,15 +74,29 @@ def rag_answer(question):
         retriever_docs = [retriever_docs]
 
     context_texts = []
-    for doc in retriever_docs:
+    prev_source = None
+
+    for i, doc in enumerate(retriever_docs):
         content = doc.page_content.strip()
+        source = doc.metadata.get("source", "출처 없음")
         if not content:
             continue
-        context_texts.append(content)
-        
-    context = "\n\n".join(context_texts)
-    sources = sorted(set([doc.metadata.get("source", "출처 없음") for doc in retriever_docs]))
-    sources_text = ", ".join(sources)
+
+        # 문단 번호 표시 (LLM이 순서 인식하도록 도움)
+        numbered = f"{i+1}. {content}"
+
+        # context에 임시로 출처 표시 (나중에 LLM이 위치 조정)
+        if source != prev_source:
+            # 새 출처 등장 시 표시
+            numbered += f"\n\n[출처: {source}]"
+        else:
+            # 같은 출처 연속이면 바로 표시 안 함
+            pass
+
+        prev_source = source
+        context_texts.append(numbered)
+
+    context = "\n\n---\n\n".join(context_texts)
 
     messages = [
         SystemMessage(content="""
@@ -91,10 +105,11 @@ def rag_answer(question):
         - 문서에 없으면 '정보 없음'으로 표시하세요.
         - 가능한 한 문서 내 문맥과 키워드에 기반하여 정확하게 답변하세요.
         - 각 항목의 출처는 반드시 별도의 줄에 '[출처: ...]' 형태로 표시하세요.
-        - 연속된 문단이 동일한 출처를 참조하는 경우, 마지막 관련 문단에만 출처를 표시하세요.
-        - 다른 출처가 나오면 그 문단 바로 아래에 해당 출처를 표시하세요.
+        - 따라서 답변에서는 새로운 출처를 추가하거나 다시 나열하지 말고,
+          문서 내용 안에 포함된 출처 표시만 그대로 반영하세요.
+        - 동일한 출처가 반복되는 경우, 마지막 문단에만 출처를 유지하세요.
         """),
-        HumanMessage(content=f"문서 내용:\n{context}\n\n질문:\n{question}\n\n출처 : {sources_text}")
+        HumanMessage(content=f"문서 내용:\n{context}\n\n질문:\n{question}")
     ]
     response = llm.invoke(messages)
     return response.content
