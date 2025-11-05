@@ -15,14 +15,17 @@ export default function QuestionInput({ onSubmit }) {
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    <form onSubmit={handleSubmit} className="question-form">
       <input
         type="text"
         placeholder="질문을 입력하세요"
         value={question}
         onChange={(e) => setQuestion(e.target.value)}
+        className="question-input"
       />
-      <button type="submit">확인</button>
+      <button type="submit" className="question-button">
+        확인
+      </button>
     </form>
   );
 }

@@ -1,32 +1,88 @@
+/* 기본 레이아웃 */
 body, html, #root {
   height: 100%;
   margin: 0;
-  font-family: Arial, sans-serif;
+  font-family: "Noto Sans KR", Arial, sans-serif;
+  background-color: #f8f9fa;
 }
 
 .app-container {
   display: flex;
   flex-direction: column;
-  justify-content: center; /* 세로 중앙 */
-  align-items: center;     /* 가로 중앙 */
-  height: 100%;
-  text-align: center;
-  padding: 20px;           /* 페이지 양쪽 여백 */
+  align-items: center; /* 제목, 질문창 중앙 정렬 */
+  justify-content: flex-start;
+  min-height: 100vh;
+  padding: 40px 20px;
   box-sizing: border-box;
 }
 
-.input-section {
-  margin-bottom: 20px;     /* 질문 입력창과 버튼 사이 여백 */
+.app-title {
+  text-align: center;
+  font-size: 28px;
+  margin-bottom: 40px;
+  color: #222;
 }
 
-.answer-section {
-  max-width: 600px;       /* 기존 너비 유지 */
-  max-height: 400px;      /* 원하는 최대 높이 설정 */
-  margin-top: 20px;
-  padding: 15px;
+/* 질문 입력 영역 */
+.question-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* 질문창 중앙 정렬 */
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.question-form {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.question-input {
+  flex: 1;
+  height: 45px;
+  padding: 0 12px;
+  font-size: 16px;
   border: 1px solid #ccc;
+  border-radius: 6px;
+  box-sizing: border-box;
+}
+
+.question-button {
+  height: 45px; /* 입력창과 동일 높이 */
+  padding: 0 18px;
+  font-size: 16px;
+  background-color: #111111;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.question-button:hover {
+  background-color: #0056b3;
+}
+
+/* 로딩 텍스트 */
+.loading-text {
+  font-size: 16px;
+  color: #1b1b1b;
+  margin-bottom: 20px;
+}
+
+/* 답변 영역 */
+.answer-wrapper {
+  width: 80%;
+  max-width: 700px;
+  text-align: left;
+  background-color: #ffffff;
   border-radius: 8px;
-  background-color: #f9f9f9;
-  word-wrap: break-word;
-  overflow-y: auto;       /* 세로 스크롤 활성화 */
+  padding: 20px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  margin-bottom: 30px;
+
+  /* 스크롤 추가 */
+  max-height: 400px;  /* 원하는 높이로 조절 가능 */
+  overflow-y: auto;
 }

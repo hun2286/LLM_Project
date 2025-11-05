@@ -1,55 +1,60 @@
 // questioninput과 answerdisplay 조합하고 상태 관리 담당
 // 질문을 입력하고 버튼 클릭시 API 호출 -> 답변 받아와서 화면에서 보여주는 역할
 
+// App.jsx
 import React, { useState } from "react";
 import QuestionInput from "./components/QuestionInput";
 import AnswerDisplay from "./components/AnswerDisplay";
-import { askQuestion } from "./api/api";
 import "./App.css";
 
-export default function App() {
+function App() {
   const [answer, setAnswer] = useState("");
-  const [loading, setLoading] = useState(false); // ✅ 로딩 상태 추가
-  const [error, setError] = useState(""); // (선택) 에러 처리
+  const [loading, setLoading] = useState(false);
 
-  const handleQuestion = async (question) => {
-    setLoading(true);     // ✅ 로딩 시작
+  // 질문 전송 로직
+  const handleAsk = async (question) => {
+    if (!question.trim()) return alert("질문을 입력하세요!");
+    setLoading(true);
     setAnswer("");
-    setError("");
 
     try {
-      const response = await askQuestion(question);
-      setAnswer(response);
-    } catch (err) {
-      setError("⚠️ 답변을 불러오는 중 오류가 발생했습니다.");
+      const response = await fetch("http://localhost:8000/ask", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ question }),
+      });
+
+      const data = await response.json();
+      setAnswer(data.answer);
+    } catch (error) {
+      console.error(error);
+      alert("서버 요청 중 오류가 발생했습니다.");
     } finally {
-      setLoading(false);  // ✅ 로딩 종료
+      setLoading(false);
     }
   };
 
   return (
     <div className="app-container">
-      <div className="input-section">
-        <QuestionInput onSubmit={handleQuestion} />
+      <h1 className="app-title">PDF QA 시스템</h1>
+
+      {/* 질문 입력 */}
+      <div className="question-wrapper">
+        <QuestionInput onSubmit={handleAsk} />
       </div>
 
-      {loading && ( // ✅ 로딩 상태 표시
-        <div className="loading-section">
-          <p style={{ color: "#666" }}>🕐 답변을 생성 중입니다...</p>
-        </div>
-      )}
+      {/* 답변 로딩 표시 */}
+      {loading && <p className="loading-text">답변 생성 중...</p>}
 
-      {error && ( // (선택) 에러 표시
-        <div className="error-section">
-          <p style={{ color: "red" }}>{error}</p>
-        </div>
-      )}
-
-      {answer && !loading && ( // ✅ 로딩이 끝난 뒤에만 답변 표시
-        <div className="answer-section">
+      {/* 답변 표시 */}
+      {answer && (
+        <div className="answer-wrapper">
           <AnswerDisplay answer={answer} />
         </div>
       )}
     </div>
   );
 }
+
+export default App;
+
