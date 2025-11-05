@@ -1,0 +1,20 @@
+# node.js 설치하기
+# node -v 
+# npm -v 버전 확인(설치 됐는지)
+
+# vite 프로젝트 생성하기
+# npm create vite@latest .
+# 현재 폴더(frontend)를 Vite 기반 React 프로젝트로 초기화
+# 실행 후 프레임워크(React 등)와 언어(JS/TS) 선택 필요
+
+# npm install
+# Vite 프로젝트를 초기화하면 package.json이 생성돼요.
+# npm install은 dependencies와 devDependencies를 설치하는 명령어
+# 즉, 프로젝트가 제대로 실행되도록 필요한 라이브러리 설치
+
+# axios 설치
+# npm install axios
+# React에서 backend API를 호출할 때 사용
+
+# npm run dev
+# package.json에 정의된 스크립트를 실행하는 명령어
