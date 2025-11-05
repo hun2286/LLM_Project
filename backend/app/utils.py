@@ -4,6 +4,7 @@ import os
 import fitz
 from langchain.schema import Document
 
+# pdf ->  마크다운 변환 함수
 def pdf_to_markdown(pdf_path):
     md_text = ""
     try:
@@ -29,6 +30,7 @@ def pdf_to_markdown(pdf_path):
         print(f"[오류] PDF 변환 실패 : {pdf_path}\n{e}")
         return ""
 
+# 마크다운 변환 후 내용 존재하면 document 객체 생성
 def load_pdf_safe(pdf_path):
     md_text = pdf_to_markdown(pdf_path)
     if md_text:
@@ -36,6 +38,7 @@ def load_pdf_safe(pdf_path):
                          metadata={"source": os.path.splitext(os.path.basename(pdf_path))[0]})]
     return []
 
+# 폴더 내 모든 PDF -> Document 객체 리스트로 반환
 def load_all_pdfs(pdf_folder):
     docs = []
     for pdf_file in os.listdir(pdf_folder):

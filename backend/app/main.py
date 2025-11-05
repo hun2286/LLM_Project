@@ -23,8 +23,8 @@ class QueryRequest(BaseModel):
 @app.post("/ask")
 async def ask_question(request: QueryRequest):
     answer = rag_answer(request.question)
-    if request.save_pdf:
-        append_to_pdf(request.question, answer)
+#    if request.save_pdf:
+#        append_to_pdf(request.question, answer)
     return {"question": request.question, "answer": answer}
 
 # @app.post("/upload_pdf/")
