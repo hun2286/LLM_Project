@@ -10,12 +10,14 @@ import "./App.css";
 function App() {
   const [answer, setAnswer] = useState("");
   const [loading, setLoading] = useState(false);
+  const [lastQuestion, setLastQuestion] = useState("");
 
   // 질문 전송 로직
   const handleAsk = async (question) => {
     if (!question.trim()) return alert("질문을 입력하세요!");
     setLoading(true);
     setAnswer("");
+    setLastQuestion(question);
 
     try {
       const response = await fetch("http://localhost:8000/ask", {
@@ -49,6 +51,12 @@ function App() {
       {/* 답변 표시 */}
       {answer && (
         <div className="answer-wrapper">
+          {/* 질문 표시 */}
+          <p className="question-display">
+          질문 : {lastQuestion}
+          </p>
+
+          {/* 실제 답변 */}
           <AnswerDisplay answer={answer} />
         </div>
       )}

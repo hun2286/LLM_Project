@@ -6,6 +6,7 @@ body, html, #root {
   background-color: #f8f9fa;
 }
 
+/* 전체 페이지 레이아웃 */
 .app-container {
   display: flex;
   flex-direction: column;
@@ -16,6 +17,7 @@ body, html, #root {
   box-sizing: border-box;
 }
 
+/* 앱 제목 스타일 */
 .app-title {
   text-align: center;
   font-size: 28px;
@@ -32,12 +34,14 @@ body, html, #root {
   margin-bottom: 30px;
 }
 
+/* 질문 폼 : 입력창, 버튼 레이아웃 */
 .question-form {
   display: flex;
   align-items: center;
   gap: 10px;
 }
 
+/* 질문 입력 창 */
 .question-input {
   flex: 1;
   height: 45px;
@@ -48,6 +52,7 @@ body, html, #root {
   box-sizing: border-box;
 }
 
+/* 확인 버튼 */
 .question-button {
   height: 45px; /* 입력창과 동일 높이 */
   padding: 0 18px;
@@ -71,10 +76,16 @@ body, html, #root {
   margin-bottom: 20px;
 }
 
+/* 답변 영역에서 질문 */
+.question-display {
+  font-weight: bold;
+  margin: 0 0 10px 20px; /* 위, 오른쪽, 아래, 왼쪽*/
+}
+
 /* 답변 영역 */
 .answer-wrapper {
   width: 80%;
-  max-width: 700px;
+  max-width: 800px;
   text-align: left;
   background-color: #ffffff;
   border-radius: 8px;
