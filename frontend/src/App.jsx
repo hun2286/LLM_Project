@@ -9,10 +9,22 @@ import "./App.css";
 
 export default function App() {
   const [answer, setAnswer] = useState("");
+  const [loading, setLoading] = useState(false); // ✅ 로딩 상태 추가
+  const [error, setError] = useState(""); // (선택) 에러 처리
 
   const handleQuestion = async (question) => {
-    const response = await askQuestion(question);
-    setAnswer(response);
+    setLoading(true);     // ✅ 로딩 시작
+    setAnswer("");
+    setError("");
+
+    try {
+      const response = await askQuestion(question);
+      setAnswer(response);
+    } catch (err) {
+      setError("⚠️ 답변을 불러오는 중 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);  // ✅ 로딩 종료
+    }
   };
 
   return (
@@ -20,7 +32,20 @@ export default function App() {
       <div className="input-section">
         <QuestionInput onSubmit={handleQuestion} />
       </div>
-      {answer && (
+
+      {loading && ( // ✅ 로딩 상태 표시
+        <div className="loading-section">
+          <p style={{ color: "#666" }}>🕐 답변을 생성 중입니다...</p>
+        </div>
+      )}
+
+      {error && ( // (선택) 에러 표시
+        <div className="error-section">
+          <p style={{ color: "red" }}>{error}</p>
+        </div>
+      )}
+
+      {answer && !loading && ( // ✅ 로딩이 끝난 뒤에만 답변 표시
         <div className="answer-section">
           <AnswerDisplay answer={answer} />
         </div>
